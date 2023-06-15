@@ -1,0 +1,21 @@
+---
+output: gothub_document 
+  md_document:
+    variant: markdown_github
+---
+
+# Purpose
+
+
+
+```{r}
+# code used to set up folders
+fmxdat::make_project()
+Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_1") 
+Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_2")
+Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_3")
+Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_4")
+
+```
+
+
