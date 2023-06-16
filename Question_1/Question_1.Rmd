@@ -16,12 +16,13 @@ output:
     # change to true for a self-contained document, but it'll be a litte slower for Pandoc to render
     self_contained: TRUE
 abstract: |
-    This report will provide some statistics on the evolution of COVID-19.
+    This report will provide some statistics on the evolution of COVID-19. This data has been kindly provided by Our World in Data. 
 
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+
 library(tidyverse)
 
 Loc <- "C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data"
@@ -29,65 +30,24 @@ deaths_df <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data s
 covid_df <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data\\covid_data_description.csv")
 owid_df <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data\\owid-covid-data.csv")
 
-# options?
-library(ggplot2)
-library("ggridges")
-ggplot(evolution_covid, aes(y = continent, x = new_cases_mil, fill = continent)) +
-  geom_density_ridges(alpha = 0.5)
-    
-ggplot(evolution_covid, aes(x=year_month, y=new_deaths_mil, fill=continent))+
-        geom_bar(stat="identity")
-
-ggplot(evolution_covid, aes(x=year_month, y=new_cases_mil, fill=continent))+
-        geom_bar(stat="identity")
-
-country_covid <- owid_df %>% dplyr::select(iso_code, continent, location, date, 
-                            stringency_index, population_density, aged_70_older, 
-                            extreme_poverty, diabetes_prevalence, 
-                            life_expectancy) %>% 
-    group_by(iso_code,location) %>% 
-    summarise(stringency_avg=sum(stringency_index, na.rm=TRUE)/n(), 
-              pop_density_avg=sum(population_density, na.rm=TRUE)/n(), 
-              age_70_older_avg= sum(aged_70_older, na.rm=TRUE)/n(),
-              pov_avg=sum(extreme_poverty, na.rm=TRUE)/n(), 
-              diabetes_prev_avg=sum(diabetes_prevalence, na.rm=TRUE)/n(),
-              life_exp_avg= sum(life_expectancy, na.rm=TRUE)/n()) %>% 
-    rename(Entity=location) %>% 
-    rename(Code=iso_code)
-
-country_covid_stats <- owid_df %>% dplyr::select(iso_code, continent, location, date, 
-                          total_cases_per_million, total_deaths_per_million) %>%
-    group_by(iso_code, location) %>% 
-    slice(n()) %>% 
-    rename(Entity=location) %>% 
-    rename(Code=iso_code)
-
-countries <- inner_join(country_covid, country_covid_stats, c("Code", "Entity"))
-countries <- countries %>% mutate(Aged_population=ifelse(age_70_older_avg<5, "Less than 5 percent", 
-                                ifelse(age_70_older_avg>=5 & age_70_older_avg<10, "Between 5 and 10 percent", 
-                                ifelse(age_70_older_avg>=10 & age_70_older_avg<15, "Between 10 and 15 percent", 
-                                       ifelse(age_70_older_avg>=15, "Above 15 percent", "NA")))))
-                                
-                                
-covid_vulnerability <- ggplot(countries, aes(x = total_deaths_per_million, fill = Aged_population)) +
-  geom_density(alpha = 0.5) +
 
 
 
-    
+ 
 
+ 
 ```
 
 \newpage
 
 # Introduction {-}
 
-
+# need to thank owid
 
 Figure 1 below shows how monthly new cases of COVID-19 varie across continents. Throughout the period 2020 - 2022, Europe leads with the highest number of cases per month. Europe experiences peaks in the last quarter of 2020 with over 500 000 new cases a month and in the last quarter of 2021 with just under 3.5 million cases a month. No other continent comes remotely close to these figures. Despite these monthly figures, new cases per million in Africa and South America remain below 300 000 new cases a month in this period. Africa's highest peak is about 265 000 new cases per month at the beginning of 2022. 
 
 ```{r }
-
+source("code/plots.R")
 cases_continent <- plotter(owid_df, evolution_covid$new_cases_mil, "New cases per million across continents", "New cases (millions)")
 cases_continent
 
@@ -98,6 +58,7 @@ Figure 2 shows that deaths too were concentrated within Europe. Once again, Afri
 # include something about missing data?
 
 ```{r}
+source("code/plots.R")
 deaths_continent <- plotter(owid_df, evolution_covid$new_deaths_mil, "Deaths per million across continents", "New deaths per million")
 deaths_continent
 
@@ -106,13 +67,52 @@ deaths_continent
 Figure 3 shows average monthly excess mortality across continents. Excess mortality is the percentage difference between the reported number of deaths and the projected number of deaths for the same period based on previous years. This metric shows that South Africa America experienced a positive average excess mortality over the period in question. Africa's excess mortality remains less than 0.03 percent when positive. 
 
 ```{r}
+source("code/plots.R")
 excess_deaths_continent <- plotter(owid_df, evolution_covid$excess_mort, "Average excess mortality across continents", "Excess mortality (%)")
 excess_deaths_continent
 
 ```
 
+COVID-19 vulnerabilities 
+
+## include smokers? cardiovasc?
 
 ```{r}
+source("code/plots.R")
+vulnerability_df <- vulnerability_transformations(owid_df)
+aged_vulnerability <- density_plotter(vulnerability_df, vulnerability_df$Aged_population, "Total deaths by proportion of population aged over 70", "Proportion of population over 70" )
+aged_vulnerability
 
+```
+
+
+```{r}
+source("code/plots.R")
+pov_vulnerability <- density_plotter(vulnerability_df, vulnerability_df$poverty, "Total deaths by proportion of population in extreme poverty", "Proportion of population in extreme poverty" )
+pov_vulnerability
+```
+
+```{r}
+source("code/plots.R")
+vulnerability_df <- vulnerability_transformations(owid_df)
+diabetes_vulnerability <- density_plotter(vulnerability_df, vulnerability_df$diabetes, "Total deaths by diabetes prevalence", "Diabetes prevalence" )
+diabetes_vulnerability
+```
+
+Hospital admissions
+
+```{r}
+source("code/plots.R")
+Europe_hosp <- hospital_resp("Europe", "Admissions and number of patients in Europe")
+Europe_hosp
+
+North_America_hosp <- hospital_resp("North America", "Admissions and number of patients in North America")
+North_America_hosp
+
+Africa_hosp <- hospital_resp("Africa", "Admissions and number of patients in Africa")
+Africa_hosp
+
+Asia_hosp <- hospital_resp("Asia", "Admissions and number of patients in Asia")
+Asia_hosp
 ```
 
