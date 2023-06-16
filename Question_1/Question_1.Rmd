@@ -21,7 +21,6 @@ abstract: |
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 
 library(tidyverse)
 
@@ -48,6 +47,7 @@ Figure 1 below shows how monthly new cases of COVID-19 varie across continents. 
 
 ```{r }
 source("code/plots.R")
+
 cases_continent <- plotter(owid_df, evolution_covid$new_cases_mil, "New cases per million across continents", "New cases (millions)")
 cases_continent
 

@@ -1,98 +1,38 @@
 ---
-# IMPORTANT: Change settings here, but DO NOT change the spacing.
-# Remove comments and add values where applicable.
-# The descriptions below should be self-explanatory
-
-title: "Helping You Write Academic Papers in R using Texevier"
-#subtitle: "This will appear as Right Header"
-
-documentclass: "elsarticle"
-
-# --------- Thesis title (Optional - set to FALSE by default).
-# You can move the details below around as you please.
-Thesis_FP: FALSE
-# Entry1: "An unbelievable study with a title spanning multiple lines."
-# Entry2: "\\textbf{Some Guy}" # textbf for bold
-# Entry3: "A thesis submitted toward the degree of Doctor of Philosophy"
-# Uni_Logo: Tex/Logo.png # Place a logo in the indicated location (from your root, e.g. defaults to ~/Tex/Logo.png) and uncomment this line. Leave uncommented for no image
-# Logo_width: 0.3 # If using a logo - use this to set width (size) of image
-# Entry4: "Under the supervision of: \\vfill Prof. Joe Smith and Dr. Frank Smith"
-# Entry5: "Stellenbosch University"
-# Entry6: April 2020
-# Entry7:
-# Entry8:
-
-# --------- Front Page
-# Comment: ----- Follow this pattern for up to 5 authors
-AddTitle: TRUE # Use FALSE when submitting to peer reviewed platform. This will remove author names.
-Author1: "Tessa Hubble"  # First Author - note the thanks message displayed as an italic footnote of first page.
-Ref1: "Stellenbosch University, South Africa" # First Author's Affiliation
-Email1: "21559953\\@sun.ac.za" # First Author's Email address
-
-#Author2: "John Smith"
-#Ref2: "Some other Institution, Cape Town, South Africa"
-#Email2: "John\\@gmail.com"
-#CommonAffiliation_12: TRUE # If Author 1 and 2 have a common affiliation. Works with _13, _23, etc.
-
-#Author3: "John Doe"
-#Email3: "Joe\\@gmail.com"
-
-#CorrespAuthor_1: TRUE  # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
-
-# Comment out below to remove both. JEL Codes only given if keywords also given.
-#keywords: "Multivariate GARCH \\sep Kalman Filter \\sep Copula" # Use \\sep to separate
-#JELCodes: "L250 \\sep L100"
-
-# ----- Manage headers and footers:
-#BottomLFooter: $Title$
-#BottomCFooter:
-#TopLHeader: \leftmark # Adds section name at topleft. Remove comment to add it.
-BottomRFooter: "\\footnotesize Page \\thepage" # Add a '#' before this line to remove footer.
-addtoprule: TRUE
-addfootrule: TRUE               # Use if footers added. Add '#' to remove line.
-
-# --------- page margins:
-margin: 2.3 # Sides
-bottom: 2 # bottom
-top: 2.5 # Top
-HardSet_layout: TRUE # Hard-set the spacing of words in your document. This will stop LaTeX squashing text to fit on pages, e.g.
-# This is done by hard-setting the spacing dimensions. Set to FALSE if you want LaTeX to optimize this for your paper.
-
-# --------- Line numbers
-linenumbers: FALSE # Used when submitting to journal
-
-# ---------- References settings:
-# You can download cls format here: https://www.zotero.org/ - simply search for your institution. You can also edit and save cls formats here: https://editor.citationstyles.org/about/
-# Hit download, store it in Tex/ folder, and change reference below - easy.
-bibliography: Tex/ref.bib       # Do not edit: Keep this naming convention and location.
-csl: Tex/harvard-stellenbosch-university.csl # referencing format used.
-# By default, the bibliography only displays the cited references. If you want to change this, you can comment out one of the following:
-#nocite: '@*' # Add all items in bibliography, whether cited or not
-# nocite: |  # add specific references that aren't cited
-#  @grinold2000
-#  @Someoneelse2010
-
-# ---------- General:
-RemovePreprintSubmittedTo: TRUE  # Removes the 'preprint submitted to...' at bottom of titlepage
-Journal: "Journal of Finance"   # Journal that the paper will be submitting to, if RemovePreprintSubmittedTo is set to TRUE.
-toc: FALSE                       # Add a table of contents
-numbersections: TRUE             # Should sections (and thus figures and tables) be numbered?
-fontsize: 11pt                  # Set fontsize
-linestretch: 1.2                # Set distance between lines.
-link-citations: TRUE            # This creates dynamic links to the papers in reference list.
-
-### Adding additional latex packages:
-# header-includes:
-#    - \usepackage{colortbl} # Add additional packages here.
-
+title: "A deep dive into Colplay and Metallica"
+documentclass: elsarticle
+Thesis_FP: no
 output:
+  html_document:
+    df_print: paged
   pdf_document:
-    keep_tex: TRUE
+    keep_tex: yes
     template: Tex/TexDefault.txt
-    fig_width: 3.5 # Adjust default figure sizes. This can also be done in the chunks of the text.
+    fig_width: 3.5
     fig_height: 3.5
+Author1: Tessa Hubble
+Ref1: Stellenbosch University, South Africa
+Email1: 21559953\@sun.ac.za
+BottomRFooter: \footnotesize Page \thepage
+addtoprule: yes
+addfootrule: yes
+margin: 2.3
+bottom: 2
+top: 2.5
+HardSet_layout: yes
+linenumbers: no
+bibliography: Tex/ref.bib
+csl: "Tex/harvard-stellenbosch-university.csl"
+RemovePreprintSubmittedTo: yes
+Journal: Journal of Finance
+toc: no
+numbersections: yes
+fontsize: 11pt
+linestretch: 1.2
+link-citations: yes
+AddTitle: yes
 abstract: |
-  Type here
+  Visualising the progression of some of the most famous bands.
 ---
 
 <!-- First: Set your default preferences for chunk options: -->
@@ -101,8 +41,11 @@ abstract: |
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
+library(tidyverse)
 
-
+Coldplay <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_3\\data\\Coldplay.csv")
+metallica <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_3\\data\\metallica.csv")
+spotify <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_3\\data\\Broader_Spotify_Info.csv")
 
 ```
 
@@ -113,23 +56,89 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width 
 
 # Introduction \label{Introduction}
 
-References are to be made as follows: @fama1997[p. 33] and @grinold2000 Such authors could also be referenced in brackets [@grinold2000] and together [@fama1997 \& @grinold2000]. Source the reference code from scholar.google.com by clicking on ``cite'' below article name. Then select BibTeX at the bottom of the Cite window, and proceed to copy and paste this code into your ref.bib file, located in the directory's Tex folder. Open this file in Rstudio for ease of management, else open it in your preferred Tex environment. Add and manage your article details here for simplicity - once saved, it will self-adjust in your paper.
+The two figures below breakdown Coldplay's and Metallica's albums by valence, energy and instrumentalness. In terms of Coldplay, we see that their album, X&Y had remarkably low instrumentalness compared to their other albums. This shows that that this particular album more vocals and fewer instrumental interludes. Coldplay covers a distribution of the full distribution of energy. Valence tends to remain below 0.4. This conveys that their songs tend to be fairly sad or  depressed. 
 
 
+```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure1}", fig.ext = 'png', fig.height = 7, fig.width = 8}
 
-```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure1}", fig.ext = 'png', fig.height = 3, fig.width = 6}
+source("code/plots.R")
+Coldplay <- Coldplay %>% mutate(band="Coldplay")
+songs_coldplay <- df_transformation(Coldplay) 
+coldplay_albums <- album_plotter(songs_coldplay, "Coldplay albums by valence, energy and instrumentallness")
+coldplay_albums 
+
+```
+
+Figure 2 of Metallica's albums tells a different story. Metallica songs tend to be higher than 0.5 in terms of energy while cover the full distribution of valence. Energy builds in instances when musicians sing louder and/or when the drums pick up tempo. Metallica tends towards high energy songs but has evenly distributed positive and negative sounds. There also appears to be varying levels of instrumentalness within Metallica's repertoire. 
+
+```{r Figure2, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure2}", fig.height = 7, fig.width = 8, dev = 'png'}
+
+source("code/plots.R")
+metallica <- metallica %>% rename(duration=duration_ms)%>% rename(album_name=album) %>% 
+    mutate(band="metallica")
+songs_metallica <- df_transformation(metallica) %>% filter(grepl("Deluxe|72|Magnetic|Garage|Load|Lulu|Monster|Anger", album_name)) %>% 
+    filter(!grepl("Deluxe / Remastered", album_name))
+metallica_albums <- album_plotter(songs_metallica, "Metallica albums by valence, energy and instrumentalness")
+metallica_albums
+
+```
+
+
+Figure 3 below compares Metallica and Coldplay along their songs' levels of danceability and tempo. 
+## need to say more 
+
+```{r Figure3, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure3}", fig.height = 6, fig.width = 7, dev = 'png'}
+
+source("code/plots.R")
+coldplay_metallica <- direct_comparison(bands_plot)
+coldplay_metallica  
+
+     
+```
+
+Figure 4 below shows the average energy, valence and instrumentallness in the rock/alternative/indie genre. Metallica is more in line with the genre's high energy while Coldplay is closer to the genre's level of valence. Both Metallica and Coldplay appear to be above the genre's average instrumentalness. 
+
+```{r Figure4, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure4}", fig.height = 5, fig.width = 6, dev = 'png'}
+
+source("code/plots.R")
+genre_plot <- genre_comparison(genre_bar)
+genre_plot
+
+     
+```
+
+
+Figures 5 and 6 show the popularity of each of the albums of Coldplay and Metallica. It becomes clear from these figures that a larger proportion of Coldplay's album have higher popularity scores. 
+
+```{r Figure5, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure4}", fig.height = 3, fig.width = 6, dev = 'png'}
+
+source("code/plots.R")
+metallica_plot <- songs_metallica %>% 
+    filter(!grepl("Garage,|Remastered Deluxe Box Set", album_name)) %>% 
+    dplyr::select(name, album_name, popularity) %>% 
+    group_by(album_name) %>% 
+    summarise(mean = sum(popularity) / n(), se = sd(popularity) / sqrt(n()))
+
+metallica_bests <- popular_album_plotter(metallica_plot, "Average popularity by Metallica album")
+metallica_bests
+
 
 
 
 ```
 
-To make your graphs look extra nice in latex world, you could use Tikz device. Replace dev - 'png' with 'tikz' in the chunk below. Notice this makes the build time longer and produces extra tex files - so if you are comfortable with this, set your device to Tikz and try it out:
+```{r Figure6, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure6}", fig.height = 5, fig.width = 6, dev = 'png'}
 
-```{r Figure2, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure2}", fig.height = 3, fig.width = 6, dev = 'png'}
+source("code/plots.R")
+coldplay_plot <- songs_coldplay %>% 
+    dplyr::select(name, album_name, popularity) %>% 
+    group_by(album_name) %>% 
+    summarise(mean = sum(popularity, na.rm=TRUE) / n(), 
+              se = sd(popularity, na.rm=TRUE) / sqrt(n()))
 
 
+coldplay_bests <- popular_album_plotter(coldplay_plot, "Average popularity by Coldplay album")
+coldplay_bests
+
+     
 ```
-
-To reference the plot above, add a ``\\label'' after the caption in the chunk heading, as done above. Then reference the plot as such: As can be seen, Figures \ref{Figure1}  and \ref{Figure2} are excellent, with Figure \ref{Figure2} being particularly aesthetically pleasing due to its device setting of Tikz. The nice thing now is that it correctly numbers all your figures (and sections or tables) and will update if it moves. The links are also dynamic.
-
-
