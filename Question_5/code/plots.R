@@ -1,3 +1,5 @@
+# plotting average ratings by app category and including a scale for proportion of the apps in each category that are free 
+
 ratings_plot <- function(data){
 
     category_df <- data %>% dplyr::select(App, Category, Rating, Type) %>%
@@ -35,6 +37,8 @@ ratings_plot <- function(data){
 
 }
 
+# creating a pie chart for the number of apps within each category should the app have over 100 000 000 installs
+
 pie_plotter <- function(install_number){
 
 
@@ -58,6 +62,8 @@ pie_plot <- installs_df %>%
 
 return(pie_plot)
 }
+
+# plotting the proportion of sentiment by category
 
 reviews_plot <- function(review_sentiment){
 
@@ -97,6 +103,8 @@ reviews_plot <- function(review_sentiment){
 
     return(review_sentiment)
 }
+
+# creating a table of lowest 10 average subjective sentiment scores by category
 
 Subjective_sent <- function(sentiment_table){
 

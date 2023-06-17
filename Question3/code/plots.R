@@ -1,3 +1,5 @@
+# creating a dataframe without live albums and then creating a bubble plot of respecitve albums by different components
+
 df_transformation <- function(data){
 
     band_df <- data %>% dplyr::select(name, album_name, energy, instrumentalness, tempo, valence,
@@ -31,6 +33,8 @@ album_plotter <- function(data, album_title){
 
 }
 
+# Merging two datasets and comparing bands directly against 
+
 direct_comparison <- function(bands_plot){
 
     all_bands <- rbind(songs_coldplay, songs_metallica)
@@ -50,6 +54,8 @@ direct_comparison <- function(bands_plot){
 
     return(bands_plot)
 }
+
+# Determining the industry average valence etc for bands in same genre as metallica and coldplay
 
 genre_comparison <- function(genre_bar){
 
@@ -82,6 +88,8 @@ genre_comparison <- function(genre_bar){
 
     return(genre_bar)
 }
+
+# plotting albums by popularity
 
 popular_album_plotter <- function(data, graph_title){
 

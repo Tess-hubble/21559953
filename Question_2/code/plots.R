@@ -1,4 +1,4 @@
-
+# collecting info on min/ max temperatures to create density plots
 
 df_transformer <- function(temps){
 
@@ -44,6 +44,8 @@ Temperature_plot <- ggplot(data, aes(y = temp, x = value, fill = temp)) +
 return(Temperature_plot)
 }
 
+# plotting temperature over time 
+
 line_plotter <- function(data){
 
     temp_avg_plot <- ggplot(data, aes(x=year, y=max_month_temp))+
@@ -64,6 +66,7 @@ line_plotter <- function(data){
     return(temp_avg_plot)
 }
 
+# creating a table with average daily cloud cover, precipitation and hours of sun over the last three decades 
 
 table_formatter <- function(london){
 

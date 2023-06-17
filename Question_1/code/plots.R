@@ -1,3 +1,5 @@
+# creating a new dataframe to determine the number of new cases and deaths per month per continent & then plotting as a stacked bar chart
+
 data_transformer <- function(data){
 
     evolution_covid <- data %>% dplyr::select(iso_code, continent, location,
@@ -41,6 +43,7 @@ plotter <- function(data, y_value, plot_title, y_title){
 
 }
 
+# gathering info on different elements of vulnerability to determine which groups of people may have suffered more
 
 vulnerability_transformations <- function(data){
 
@@ -107,6 +110,8 @@ density_plotter <- function(data, filler, graph_title, filler_title){
     return(covid_vulnerability)
 
 }
+
+# compiling data on hospital admissions and plotting over time
 
 hospital_resp <- function(region, graph_title){
 

@@ -1,3 +1,4 @@
+# determining the proportion of genres each year among movies/ series scoring above 8
 
 genres <- function(data, Terms = c("documentation", 'crime', 'drama', 'fantasy', 'comedy', 'horror', 'thriller', 'action', 'animation', 'romance', 'family', 'western', 'war', 'history', 'scifi', 'reality')){
 
@@ -56,6 +57,8 @@ data %>% filter(release_year>=2010) %>%
     theme(plot.margin = margin(15, 10, 15, 10))
 
 }
+
+# finding the most popular actors based on avg imdb score and their most popular movie 
 
 popular_actors <- function(popular_actors){
 
