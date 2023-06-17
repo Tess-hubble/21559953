@@ -1,0 +1,110 @@
+---
+title: "Industry insights for app development"
+documentclass: elsarticle
+Thesis_FP: no
+output:
+  html_document:
+    df_print: paged
+  pdf_document:
+    keep_tex: yes
+    template: Tex/TexDefault.txt
+    fig_width: 3.5
+    fig_height: 3.5
+Author1: Tessa Hubble
+Ref1: Stellenbosch Univeristy, South Africa
+Email1: 21559953\@sun.ac.za
+BottomRFooter: \footnotesize Page \thepage
+addtoprule: yes
+addfootrule: yes
+margin: 2.3
+bottom: 2
+top: 2.5
+HardSet_layout: yes
+linenumbers: no
+bibliography: Tex/ref.bib
+csl: "Tex/harvard-stellenbosch-university.csl"
+RemovePreprintSubmittedTo: yes
+Journal: Journal of Finance
+toc: no
+numbersections: yes
+fontsize: 11pt
+linestretch: 1.2
+link-citations: yes
+AddTitle: yes
+abstract: "Type here \n"
+---
+
+<!-- First: Set your default preferences for chunk options: -->
+
+<!-- If you want a chunk's code to be printed, set echo = TRUE. message = FALSE stops R printing ugly package loading details in your final paper too. I also suggest setting warning = FALSE and checking for warnings in R, else you might find ugly warnings in your paper. -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
+
+library(tidyverse)
+
+playstore <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_5\\data\\googleplaystore.csv")
+reviews <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_5\\data\\googleplaystore_user_reviews.csv")
+
+
+```
+
+
+<!-- ############################## -->
+<!-- # Start Writing here: -->
+<!-- ############################## -->
+
+# Introduction \label{Introduction}
+
+Events, education, art & design, beauty, books & reference and parenting are among the most highly rated apps. This indicates customer satisfication with the services offered by apps within these categories. Since apps are rated above 4.3, there is promise but also a lot of competition within these categories. Out of all the categories, books & reference, medical and personalisation have the lowest proportion of free apps (80 to 85 percent). These categories have ratings higher than 4 therefore present the opportunity to introduce a new paid app. Users in these categories may be more favourable to paid apps given their familiarity with the categories. 
+
+
+
+```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure1}", fig.ext = 'png', fig.height = 7, fig.width = 8}
+source("code/plots.R")
+ratings_category <- ratings_plot(playstore)
+ratings_category
+
+```
+
+
+
+The number of installs is a good metric for how successful an app is. By focussing only on apps with installs over 100 million, it becomes clearer what type of apps are popular. Apps within the Games category make up more than quarter of all apps with installs over 100 million. Categories such as tools , productivity and photography make up the next largest contributions to popular apps. There is potential for these categories to be saturated due to the high number of installs. 
+
+
+
+```{r Figure2, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure2}", fig.height = 6, fig.width = 6, dev = 'png'}
+source("code/plots.R")
+hundred_mil_plus <- pie_plotter("100,000,000+")
+hundred_mil_plus
+    
+
+```
+
+
+
+App reviews were classified according to sentiment and averaged at the app category level. The comics, auto and vehicles, events and the health & fitness categories had the largest proportion of positive reviews. The games category, hoowever, had the largest proportion of all app categories. 
+
+
+
+```{r Figure3, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure3}", fig.height = 5, fig.width = 7, dev = 'png'}
+source("code/plots.R")
+category_reviews <- reviews_plot(review_sentiment)
+category_reviews
+
+ 
+```
+
+
+
+Subjective sentiment scores shows indicates whether a review is likely to contain personal or factual information. A higher score indicates that the review contains higher levels of subjectivity therefore contains more personal opinion than factual information. Factual information helps improve the functionality and therefore success of the app. App categories such as lifestyle and business have users which are more likely to provide helpful feedback. 
+
+
+
+```{r Figure4, warning =  FALSE, fig.align = 'center', fig.cap = "Top 10 lowest subjectivity sentiment scores among app categories \\label{Figure4}", fig.height = 3, fig.width = 6, dev = 'png'}
+source("code/plots.R")
+subjective_sentiment_cat <- Subjective_sent(sentiment_table)
+subjective_sentiment_cat
+
+ 
+```
