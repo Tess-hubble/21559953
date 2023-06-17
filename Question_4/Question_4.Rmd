@@ -43,14 +43,6 @@ library(tidyverse)
 credits <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_4\\data\\credits.csv")
 titles <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_4\\data\\titles.csv")
 
-
- 
-
-     
- 
- 
- 
- 
 ```
 
 
@@ -63,7 +55,7 @@ titles <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data scie
 A streaming service has to carefully select titles that will draw users to the platform. Series and movies genres therefore present an important aspect of the service. Figure 1 and 2 show the frequency of genres among series and movies with an imdb score of above 8. For the last 10 years, drama as a genre has dominated the most popular series. The next most frequent genre among the most popular series, is comedies. Documentaries tend to come up in around 25 percent of popular series. In 2022, there appears to be a spike in the popularity of the romance genre. 
 
 
-```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.cap = "Frequency of genres among popular series  \\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 10}
+```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 5, fig.width = 10}
 
 source("code/plots.R")
 series_genres <- transformer_df("SHOW")
@@ -76,7 +68,7 @@ series_genre_plot
 
 Among popular movies, dramas continue to appear frequently. Documentaries and comedies also perform consistently, although at lower frequencies. Actions and animation movies tend to feature less and less among popular movies over time.
 
-```{r Figure2, warning =  FALSE, fig.align = 'center', fig.cap = "Frequency of genres among popular movies \\label{Figure2}", fig.height = 5, fig.width =10, dev = 'png'}
+```{r Figure2, warning =  FALSE, fig.align = 'center', fig.height = 5, fig.width =10, dev = 'png'}
 
 source("code/plots.R")
 movie_genres <- transformer_df("MOVIE")
@@ -87,10 +79,9 @@ movie_genre_plot
 
 ```
 
-The table below shows the most popular actors, their average imdb rating and their most popular movie or series performance. 
-It becomes clear that including series in a streaming performance is of the utmost importance. Moreso, including very popular series within the last two decades should bring in users to the platform. Series and movies with the following actors are likely to incentivise users to join. 
+The table below shows the most popular actors, their average imdb rating and their most popular movie or series performance. It becomes clear that including series in a streaming performance is of the utmost importance. More so, including very popular series within the last two decades should bring in users to the platform. Series and movies with the following actors are likely to incentivise users to join. 
 
-```{r Figure3, warning =  FALSE, fig.align = 'center', fig.cap = "Top 20 most popular actors and their their most popular series/movies appearance \\label{Figure3}", fig.height = 5, fig.width = 7, dev = 'png'}
+```{r Figure3, warning =  FALSE, fig.align = 'center', fig.height = 5, fig.width = 7, dev = 'png'}
 
 source("code/plots.R")
 top_actors_table <- popular_actors(popular_actors)
@@ -99,5 +90,6 @@ top_actors_table
 
 ```
 
+From these figures it would be wise to focus on dramas and documentaries among series and movies. Series appear to have some of the highest ratings therefore a large selection of different series is important. It is also important to focus on some of the highest rated actors and their top series or movies. Regardless of how old these series may be, crowds still enjoy them.  
 
 

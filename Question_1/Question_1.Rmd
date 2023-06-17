@@ -1,5 +1,5 @@
 ---
-title: "Paged HTML Document"
+title: "Putting COVID-19 into context"
 author: "Tessa Hubble"
 date: "July 2023"
 # date: "`r Sys.Date()`"
@@ -17,67 +17,62 @@ output:
     self_contained: TRUE
 abstract: |
     This report will provide some statistics on the evolution of COVID-19. This data has been kindly provided by Our World in Data. 
-
 ---
 
 ```{r setup, include=FALSE}
 
 library(tidyverse)
 
-Loc <- "C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data"
-deaths_df <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data\\Deaths_by_cause.csv")
-covid_df <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data\\covid_data_description.csv")
-owid_df <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data\\owid-covid-data.csv")
-
-
-
-
- 
+Loc <- "C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data\\"
+deaths_df <- read_csv(glue::glue("{Loc}Deaths_by_cause.csv"))
+covid_df <- read_csv(glue::glue("{Loc}covid_data_description.csv"))
+owid_df <- read_csv(glue::glue("{Loc}owid-covid-data.csv"))
 
  
 ```
 
 \newpage
 
-# Introduction {-}
+# Introduction {.unnumbered}
 
-# need to thank owid
+Figure 1 below shows how monthly new cases of COVID-19 varied across continents. Throughout the period 2020 - 2022, Europe led with the highest number of new cases per month. Europe experienced peaks in the last quarter of 2020 with over 500 000 new cases a month and in the last quarter of 2021 with just under 3.5 million cases a month. No other continent comes remotely close to these figures. Despite these monthly figures, new cases per million in Africa and South America remain below 300 000 throughout this period. Africa's highest peak is about 265 000 new cases per month at the beginning of 2022.
 
-Figure 1 below shows how monthly new cases of COVID-19 varie across continents. Throughout the period 2020 - 2022, Europe leads with the highest number of cases per month. Europe experiences peaks in the last quarter of 2020 with over 500 000 new cases a month and in the last quarter of 2021 with just under 3.5 million cases a month. No other continent comes remotely close to these figures. Despite these monthly figures, new cases per million in Africa and South America remain below 300 000 new cases a month in this period. Africa's highest peak is about 265 000 new cases per month at the beginning of 2022. 
-
-```{r }
+```{r Figure1, echo=FALSE, results='hide', message=FALSE, warning=FALSE, fig.align='center', fig.ext='png', fig.height=6, fig.width=7}
 source("code/plots.R")
-
-cases_continent <- plotter(owid_df, evolution_covid$new_cases_mil, "New cases per million across continents", "New cases (millions)")
+covid_timeline <- data_transformer(owid_df)
+cases_continent <- plotter(covid_timeline, covid_timeline$new_cases_mil, "New cases per million across continents", "New cases (millions)")
 cases_continent
 
 ```
 
-Figure 2 shows that deaths too were concentrated within Europe. Once again, Africa presents a small conrtributor to monthly deaths throughout the period. 
+Figure 2 shows that deaths too were concentrated within Europe. Africa presents a small contributor to monthly deaths throughout the period. However, South America experienced a higher number of covid-19 related deaths despite a relatively low number of cases.
 
-# include something about missing data?
-
-```{r}
+```{r r Figure1, echo=FALSE, fig.align='center', warning=FALSE, message=FALSE, fig.ext='png', fig.height=6, fig.width=7}
 source("code/plots.R")
-deaths_continent <- plotter(owid_df, evolution_covid$new_deaths_mil, "Deaths per million across continents", "New deaths per million")
+
+covid_timeline2 <- data_transformer(owid_df)
+deaths_continent <- plotter(covid_timeline2, covid_timeline2$new_deaths_mil, "Deaths per million across continents", "New deaths per million")
 deaths_continent
 
 ```
 
-Figure 3 shows average monthly excess mortality across continents. Excess mortality is the percentage difference between the reported number of deaths and the projected number of deaths for the same period based on previous years. This metric shows that South Africa America experienced a positive average excess mortality over the period in question. Africa's excess mortality remains less than 0.03 percent when positive. 
+Figure 3 shows average monthly excess mortality across continents. Excess mortality is the percentage difference between the reported number of deaths and the projected number of deaths for the same period based on previous years. This metric shows that South America experienced a positive average excess mortality over the period in question. This supports figure 2 and confirms that covid-19 results in more deaths. Africa's excess mortality remains less than 0.03 percent when positive.
 
-```{r}
+```{r Figure3, echo=FALSE, fig.align='center', warning=FALSE, message=FALSE, fig.ext='png', fig.height=6, fig.width=7}
 source("code/plots.R")
-excess_deaths_continent <- plotter(owid_df, evolution_covid$excess_mort, "Average excess mortality across continents", "Excess mortality (%)")
+covid_timeline3 <- data_transformer(owid_df)
+excess_deaths_continent <- plotter(covid_timeline3, covid_timeline3$excess_mort, "Average excess mortality across continents", "Excess mortality (%)")
 excess_deaths_continent
 
 ```
 
-COVID-19 vulnerabilities 
+# Country-specific vulnerabilities
 
-## include smokers? cardiovasc?
+The following figures will explore whether countries with specific concentrated groupings displayed distinct patterns in the severity of their covid-19 experience.
 
-```{r}
+Figure 4 below shows that countries with a larger proportion of elderly people experienced a higher number of deaths per million. Specifically, where more than 10 percent of a population was over 70 years old, total deaths per million was higher than if only 5 percent of the population was over 70.
+
+```{r Figure4, echo=FALSE, fig.align='center', warning=FALSE, message=FALSE, fig.ext='png', fig.height=6, fig.width=8}
 source("code/plots.R")
 vulnerability_df <- vulnerability_transformations(owid_df)
 aged_vulnerability <- density_plotter(vulnerability_df, vulnerability_df$Aged_population, "Total deaths by proportion of population aged over 70", "Proportion of population over 70" )
@@ -85,34 +80,44 @@ aged_vulnerability
 
 ```
 
+Figure 5 shows that deaths were higher in countries where diabetes prevalence was higher. When diabetes prevalence was between 5 and 15 percent, the longer tails of the graph indicate a larger number of deaths per million.
 
-```{r}
-source("code/plots.R")
-pov_vulnerability <- density_plotter(vulnerability_df, vulnerability_df$poverty, "Total deaths by proportion of population in extreme poverty", "Proportion of population in extreme poverty" )
-pov_vulnerability
-```
-
-```{r}
+```{r Figure5, echo=FALSE, fig.align='center', warning=FALSE, message=FALSE, fig.ext='png', fig.height=6, fig.width=8}
 source("code/plots.R")
 vulnerability_df <- vulnerability_transformations(owid_df)
 diabetes_vulnerability <- density_plotter(vulnerability_df, vulnerability_df$diabetes, "Total deaths by diabetes prevalence", "Diabetes prevalence" )
 diabetes_vulnerability
 ```
 
-Hospital admissions
+# Hospital admissions
 
-```{r}
+Despite the vulnerabilities that inherently exist within different countries, the ability of countries to increase hospitalisation tempered the severity of the pandemic.The question is whether countries increased their hospitalisation capacity before or after ICUs started to fill up.
+
+Figure 6 below shows admissions as well as hospital capacities in terms of the ICU and the general wards. In Europe, ICU admissions lag behind general hospital admissions. Hospital and ICU patients fluctuate in line with different waves of the pandemic. Hospitalisation more than doubled by the end of 2020. It appears that hospitals grew in capacity as hospital admissions increased.
+
+```{r Figure6, echo=FALSE, fig.align='center', warning=FALSE, message=FALSE, fig.ext='png', fig.height=6, fig.width=8}
 source("code/plots.R")
 Europe_hosp <- hospital_resp("Europe", "Admissions and number of patients in Europe")
 Europe_hosp
 
-North_America_hosp <- hospital_resp("North America", "Admissions and number of patients in North America")
-North_America_hosp
+
+```
+
+Figure 7 shows that admissions and hospital capacity per million is much lower in African than Europe. Where the number of hospital patients per million peaked at 240 in Europe, it only ever reach 0.75 in Africa. Hospitalisation trends follow the waves of covid-19, but there is no data on ICU admissions. A peak in hospital admissions is followed by a peak in ICU admissions after which the number of hospital patients increases. Hospital capacity did increase up until to the peak of the third wave.
+
+```{r Figure7, echo=FALSE, fig.align='center', warning=FALSE, message=FALSE, fig.ext='png', fig.height=6, fig.width=8}
+source("code/plots.R")
 
 Africa_hosp <- hospital_resp("Africa", "Admissions and number of patients in Africa")
 Africa_hosp
+```
+
+Figure 8 shows the state of hospitalisation in Asia. The above trends are mimicked in Asisa except for the fact that hospitalisation increases throughout the period in question. There is less of lag between hospital admissions, ICU admissions and the number of hospital patients.
+
+```{r Figure8, echo=FALSE, fig.align='center', warning=FALSE, message=FALSE, fig.ext='png', fig.height=6, fig.width=8}
 
 Asia_hosp <- hospital_resp("Asia", "Admissions and number of patients in Asia")
 Asia_hosp
 ```
 
+Hospital capacities were placed under immense pressure as seen by the increase in hospital and ICU admissions. As seen by the above figures, Asia and Africa lag behind Europe in terms of hospital capacities.

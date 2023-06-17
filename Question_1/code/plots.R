@@ -1,7 +1,4 @@
-plotter <- function(data, y_value, plot_title, y_title){
-
-    library(tidyverse)
-    library(RColorBrewer)
+data_transformer <- function(data){
 
     evolution_covid <- data %>% dplyr::select(iso_code, continent, location,
                                                  date, new_cases_per_million,
@@ -15,7 +12,15 @@ plotter <- function(data, y_value, plot_title, y_title){
         na.omit() %>%
         mutate(new_cases_mil=new_cases_mil/1000000)
 
-    continent_plot <- ggplot(evolution_covid, aes(x=year_month, y=y_value, fill=continent))+
+    return(evolution_covid)
+}
+
+plotter <- function(data, y_value, plot_title, y_title){
+
+        library(RColorBrewer)
+
+
+    continent_plot <- ggplot(data, aes(x=year_month, y=y_value, fill=continent))+
         geom_bar(stat="identity")+
         labs(title=plot_title,
              x="Date",
@@ -29,7 +34,7 @@ plotter <- function(data, y_value, plot_title, y_title){
         theme(plot.margin = margin(15, 10, 15, 10))+
         theme(axis.text.x = element_text(angle = 45, hjust = 1))+
         scale_color_brewer(palette = "Set2")+
-        theme(plot.title = element_text(size = 14),
+        theme(plot.title = element_text(size = 14, face="bold"),
               axis.text.x = element_text(size = 6))
 
     return(continent_plot)
@@ -97,7 +102,7 @@ density_plotter <- function(data, filler, graph_title, filler_title){
         theme(axis.title.x = element_text(hjust = 0.5))+
         theme(plot.margin = margin(15, 10, 15, 10))+
         scale_color_brewer(palette = "Set2")+
-        theme(plot.title = element_text(size = 14))
+        theme(plot.title = element_text(size = 14, face="bold"))
 
     return(covid_vulnerability)
 
@@ -121,7 +126,7 @@ hospital_resp <- function(region, graph_title){
 
 admissions <- covid_resp %>% filter(continent==region) %>%
     ggplot(aes(x = year_month, y = value, colour = indicator, group=indicator)) +
-    geom_line(na.rm = TRUE)+
+    geom_line(size=0.6, na.rm = TRUE)+
     labs(title= graph_title,
          x="Date",
          y= "Admissions per million",
@@ -134,7 +139,7 @@ admissions <- covid_resp %>% filter(continent==region) %>%
     theme(plot.margin = margin(15, 10, 15, 10))+
     theme(axis.text.x = element_text(angle = 45, hjust = 1))+
     scale_color_brewer(palette = "Set2")+
-    theme(plot.title = element_text(size = 14),
+    theme(plot.title = element_text(size = 14, face="bold"),
           axis.text.x = element_text(size = 5))
 
 return(admissions)

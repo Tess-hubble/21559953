@@ -1,7 +1,7 @@
 ---
-output: gothub_document 
-  md_document:
-    variant: markdown_github
+output:
+  md_document: default
+  github_document: default
 ---
 
 # Purpose
@@ -10,12 +10,226 @@ output: gothub_document
 
 ```{r}
 # code used to set up folders
-fmxdat::make_project()
-Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_1") 
-Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_2")
-Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_3")
-Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_4")
+#fmxdat::make_project()
+#Texevier::create_template_html(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_1") 
+#Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_2")
+#Texevier::create_template_html(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question3")
+#Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_4")
+#Texevier::create_template(dir="C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953", template_name = "Question_5")
 
 ```
+
+# Question 1
+```{r}
+# loading the data
+suppressMessages(library(tidyverse))
+Loc <- "C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\data\\"
+deaths_df <- read_csv(glue::glue("{Loc}Deaths_by_cause.csv"))
+covid_df <- read_csv(glue::glue("{Loc}covid_data_description.csv"))
+owid_df <- read_csv(glue::glue("{Loc}owid-covid-data.csv"))
+
+source("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_1\\code\\plots.R")
+
+# Figure 1
+covid_timeline <- data_transformer(owid_df)
+cases_continent <- plotter(covid_timeline, covid_timeline$new_cases_mil, 
+                           "New cases per million across continents", 
+                           "New cases (millions)")
+cases_continent
+
+# Figure 2
+covid_timeline2 <- data_transformer(owid_df)
+deaths_continent <- plotter(covid_timeline2, covid_timeline2$new_deaths_mil, 
+                            "Deaths per million across continents", "New deaths 
+                            per million")
+deaths_continent
+
+# Figure 3
+covid_timeline3 <- data_transformer(owid_df)
+excess_deaths_continent <- plotter(covid_timeline3, covid_timeline3$excess_mort, 
+                                   "Average excess mortality across continents", 
+                                   "Excess mortality (%)")
+excess_deaths_continent
+
+# Figure 4
+vulnerability_df <- vulnerability_transformations(owid_df)
+aged_vulnerability <- density_plotter(vulnerability_df, 
+                                      vulnerability_df$Aged_population, 
+                                      "Total deaths by proportion of population 
+                                      aged over 70", "Proportion of population 
+                                      over 70" )
+aged_vulnerability
+
+# Figure 5
+vulnerability_df <- vulnerability_transformations(owid_df)
+diabetes_vulnerability <- density_plotter(vulnerability_df, 
+                                          vulnerability_df$diabetes, 
+                                          "Total deaths by diabetes prevalence", 
+                                          "Diabetes prevalence" )
+diabetes_vulnerability
+
+# Figure 6
+Europe_hosp <- hospital_resp("Europe", "Admissions and number of patients 
+                             in Europe")
+Europe_hosp
+
+# Figure 7
+Africa_hosp <- hospital_resp("Africa", "Admissions and number of patients in 
+                             Africa")
+Africa_hosp
+
+# Figure 8
+Asia_hosp <- hospital_resp("Asia", "Admissions and number of patients in Asia")
+Asia_hosp
+
+```
+
+# Question 2
+```{r}
+#loading the data
+library(tidyverse)
+weather <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_2\\data\\UKMonthly_Detailed.csv")
+london <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_2\\data\\london_weather.csv")
+
+source("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_2\\code\\plots.R")
+
+# Figure 1
+library(lubridate)
+library(zoo)
+
+    start_date <- as.yearmon("1881-01")
+    N <- 1707
+    date <- data.frame(year_month = seq(start_date, length = N, by = 1/12))
+    weather <- cbind(weather, date)
+    
+temp_df <- df_transformer(weather)
+temps <- density_plotter(temp_df)
+temps
+
+# Figure 2
+max_temp <- df_transformer(temps)
+avg_temp <- line_plotter(max_temp)
+avg_temp
+
+# Table 
+weather_table <- table_formatter(london)
+weather_table
+
+
+```
+
+# Question 3
+```{r}
+# loading the data
+Coldplay <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question3\\data\\Coldplay.csv")
+metallica <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question3\\data\\metallica.csv")
+spotify <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question3\\data\\Broader_Spotify_Info.csv")
+
+source("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question3\\code\\plots.R")
+
+# Figure 1
+Coldplay <- Coldplay %>% mutate(band="Coldplay")
+songs_coldplay <- df_transformation(Coldplay) 
+coldplay_albums <- album_plotter(songs_coldplay, "Coldplay albums by valence, energy and instrumentallness")
+coldplay_albums
+
+# Figure 2
+metallica <- metallica  %>% rename(duration=duration_ms)%>% rename(album_name=album) %>% 
+    mutate(band="metallica")
+songs_metallica <- df_transformation(metallica) %>% filter(grepl("Deluxe|72|Magnetic|Garage|Load|Lulu|Monster|Anger", album_name)) %>% 
+    filter(!grepl("Deluxe / Remastered", album_name))
+metallica_albums <- album_plotter(songs_metallica, "Metallica albums by 
+                                  valence, energy and instrumentalness")
+metallica_albums
+
+# Figure 3
+coldplay_metallica <- direct_comparison(bands_plot)
+coldplay_metallica  
+
+# Figure 4
+genre_plot <- genre_comparison(genre_bar)
+genre_plot
+
+# Figure 5
+metallica_plot <- songs_metallica %>% 
+    filter(!grepl("Garage,|Remastered Deluxe Box Set", album_name)) %>% 
+    dplyr::select(name, album_name, popularity) %>% 
+    group_by(album_name) %>% 
+    summarise(mean = sum(popularity) / n(), se = sd(popularity) / sqrt(n()))
+
+metallica_bests <- popular_album_plotter(metallica_plot, "Average popularity by 
+                                         Metallica album")
+metallica_bests
+
+# Figure 6
+coldplay_plot <- songs_coldplay %>% 
+    dplyr::select(name, album_name, popularity) %>% 
+    group_by(album_name) %>% 
+    summarise(mean = sum(popularity, na.rm=TRUE) / n(), 
+              se = sd(popularity, na.rm=TRUE) / sqrt(n()))
+
+
+coldplay_bests <- popular_album_plotter(coldplay_plot, "Average popularity 
+                                        by Coldplay album")
+coldplay_bests
+
+```
+
+# Question 4
+```{r}
+# loading the data
+library(tidyverse)
+credits <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_4\\data\\credits.csv")
+titles <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_4\\data\\titles.csv")
+
+source("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_4\\code\\plots.R")
+
+# figure 1
+series_genres <- transformer_df("SHOW")
+series_genre_plot <- genre_plotter(series_genres, 
+                                   "Frequency of series genres with an imdb 
+                                   score of above 8")
+series_genre_plot
+
+# figure 2
+movie_genres <- transformer_df("MOVIE")
+movie_genre_plot <- genre_plotter(movie_genres, "Frequency of movie genres 
+                                  with an imdb score of above 8")
+movie_genre_plot
+
+# Table
+top_actors_table <- popular_actors(popular_actors)
+top_actors_table
+```
+
+# Question 5
+```{r}
+# loading the data
+playstore <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_5\\data\\googleplaystore.csv")
+reviews <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_5\\data\\googleplaystore_user_reviews.csv")
+
+source("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_5\\code\\plots.R")
+
+# Figure 1 
+ratings_category <- ratings_plot(playstore)
+ratings_category
+
+# Figure 2
+hundred_mil_plus <- pie_plotter("100,000,000+")
+hundred_mil_plus
+
+# Figure 3
+category_reviews <- reviews_plot(review_sentiment)
+category_reviews
+
+# Figure 4
+subjective_sentiment_cat <- Subjective_sent(sentiment_table)
+subjective_sentiment_cat
+
+
+
+```
+
+
 
 

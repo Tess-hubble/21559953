@@ -48,7 +48,7 @@ data %>% filter(release_year>=2010) %>%
     labs( title = graph_title,
           x = "Release year",
           y = "Proportion") +
-    theme(plot.title = element_text(hjust = 0.5, vjust = 3))+
+    theme(plot.title = element_text(hjust = 0.5, vjust = 3, face="bold"))+
     theme(axis.title.y = element_text(margin = margin(r = 10)))+
     theme(axis.title.y = element_text(hjust = 0.5))+
     theme(axis.title.x = element_text(margin = margin(t = 10)))+

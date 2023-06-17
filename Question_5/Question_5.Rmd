@@ -31,7 +31,7 @@ fontsize: 11pt
 linestretch: 1.2
 link-citations: yes
 AddTitle: yes
-abstract: "Type here \n"
+abstract: "Using the playstore as a tool to aid app development."
 ---
 
 <!-- First: Set your default preferences for chunk options: -->
@@ -56,11 +56,10 @@ reviews <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data sci
 
 # Introduction \label{Introduction}
 
-Events, education, art & design, beauty, books & reference and parenting are among the most highly rated apps. This indicates customer satisfication with the services offered by apps within these categories. Since apps are rated above 4.3, there is promise but also a lot of competition within these categories. Out of all the categories, books & reference, medical and personalisation have the lowest proportion of free apps (80 to 85 percent). These categories have ratings higher than 4 therefore present the opportunity to introduce a new paid app. Users in these categories may be more favourable to paid apps given their familiarity with the categories. 
+Events, education, art & design, beauty, books & reference and parenting are among the most highly rated categories of apps. This is an indication of customer satisfaction with the services offered by apps within these categories. Since these apps are rated above 4.3, there is a demand for such services but also a lot of competition. Out of all the categories, books & reference, medical and personalisation have the lowest proportion of free apps (80 to 85 percent). These categories have ratings higher than 4 therefore may present a profitable opportunity to introduce a new paid app. Users in these categories may be more favourable to paid apps given their familiarity with the categories. 
 
 
-
-```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure1}", fig.ext = 'png', fig.height = 7, fig.width = 8}
+```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 7, fig.width = 8}
 source("code/plots.R")
 ratings_category <- ratings_plot(playstore)
 ratings_category
@@ -69,11 +68,11 @@ ratings_category
 
 
 
-The number of installs is a good metric for how successful an app is. By focussing only on apps with installs over 100 million, it becomes clearer what type of apps are popular. Apps within the Games category make up more than quarter of all apps with installs over 100 million. Categories such as tools , productivity and photography make up the next largest contributions to popular apps. There is potential for these categories to be saturated due to the high number of installs. 
+The number of installs is a good metric for how successful an app is. By focusing only on apps with installs over 100 million, it becomes clearer what type of apps are popular. Apps within the Games category make up more than a quarter of all apps with installs over 100 million. Categories such as tools , productivity and photography make up the next largest contributions to popular apps. Although this is evidence that these categories may be profitable, there is also potential for these categories to be saturated due to the high number of installs. 
 
 
 
-```{r Figure2, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure2}", fig.height = 6, fig.width = 6, dev = 'png'}
+```{r Figure2, warning =  FALSE, fig.align = 'center', fig.height = 7, fig.width = 6, dev = 'png'}
 source("code/plots.R")
 hundred_mil_plus <- pie_plotter("100,000,000+")
 hundred_mil_plus
@@ -83,11 +82,11 @@ hundred_mil_plus
 
 
 
-App reviews were classified according to sentiment and averaged at the app category level. The comics, auto and vehicles, events and the health & fitness categories had the largest proportion of positive reviews. The games category, hoowever, had the largest proportion of all app categories. 
+App reviews are useful way to gauge customer satisfaction. App reviews were classified according to sentiment and averaged at the app category level. The comics, auto & vehicles, events and the health & fitness categories had the largest proportion of positive reviews. The games category, however, had the largest proportion of negative reviews. The positive sentiment indicates that these categories are performing well. The larger proportion of negative reviews among games may indicate a gap in the category to perform where other apps are not. 
 
 
 
-```{r Figure3, warning =  FALSE, fig.align = 'center', fig.cap = "Caption Here \\label{Figure3}", fig.height = 5, fig.width = 7, dev = 'png'}
+```{r Figure3, warning =  FALSE, fig.align = 'center', fig.height = 5, fig.width = 7, dev = 'png'}
 source("code/plots.R")
 category_reviews <- reviews_plot(review_sentiment)
 category_reviews
@@ -97,7 +96,9 @@ category_reviews
 
 
 
-Subjective sentiment scores shows indicates whether a review is likely to contain personal or factual information. A higher score indicates that the review contains higher levels of subjectivity therefore contains more personal opinion than factual information. Factual information helps improve the functionality and therefore success of the app. App categories such as lifestyle and business have users which are more likely to provide helpful feedback. 
+
+User feedback remains an important tool to improve app functionality. A helpful community of users is instrumental in a successful app. Subjective sentiment scores indicates whether a review is likely to contain personal or factual information. A higher score indicates that the review contains higher levels of subjectivity therefore contains more personal opinion than factual information. Factual information helps improve the functionality and therefore aids in the success of the app. App categories such as lifestyle and business have users which are more likely to provide helpful feedback. This is an important point to consider when choosing a category to enter. 
+
 
 
 

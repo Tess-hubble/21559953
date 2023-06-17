@@ -1,0 +1,120 @@
+---
+title: "A deep dive into Colplay and Metallica"
+author: "Tessa Hubble"
+date: "July 2023"
+# date: "`r Sys.Date()`"
+bibliography: Tex/ref.bib       # Do not edit: Keep this naming convention and location.
+output:
+  pagedown::html_paged:
+    # template: wp_paged.html
+    # css: ['wp.css', 'wp-fonts.css', 'wp-page.css']
+    css: ["Template/default-fonts-Texevier.css", "Template/default-page-Texevier.css", "Template/default-Texevier.css"]
+    csl: Template/harvard-stellenbosch-university.csl # referencing format used.
+    template: ["Template/paged-Texevier.html"]
+
+    toc: true
+    # change to true for a self-contained document, but it'll be a litte slower for Pandoc to render
+    self_contained: TRUE
+abstract: |
+  Visualising the progression of some of the most famous bands.
+
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+Coldplay <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question3\\data\\Coldplay.csv")
+metallica <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question3\\data\\metallica.csv")
+spotify <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question3\\data\\Broader_Spotify_Info.csv")
+```
+
+\newpage
+
+# Introduction {-}
+
+The two figures below breakdown Coldplay's and Metallica's albums by valence, energy and instrumentalness. In terms of Coldplay, we see that their album, X&Y had remarkably low instrumentalness compared to their other albums. This shows that that this particular album had more vocals and fewer instrumental interludes. Coldplay covers the full distribution of energy. Valence tends to remain below 0.4. This conveys that their songs tend to be fairly sad or depressed. 
+
+
+```{r Figure1,  echo=FALSE, message=FALSE, results='hide', warning =  FALSE, fig.align = 'center', fig.ext = 'png', fig.height = 6, fig.width = 7}
+library(tidyverse)
+source("code/plots.R")
+Coldplay <- Coldplay %>% mutate(band="Coldplay")
+songs_coldplay <- df_transformation(Coldplay) 
+coldplay_albums <- album_plotter(songs_coldplay, "Coldplay albums by valence,\n energy and instrumentallness")
+coldplay_albums 
+
+```
+
+Figure 2 of Metallica's albums tells a different story. Metallica songs tend to be higher than 0.5 in terms of energy and covers the full distribution of valence. Energy builds in instances when musicians sing louder and/or when the drums pick up tempo. Metallica tends towards high energy songs but has evenly distributed positive and negative sounds. There also appears to be varying levels of instrumentalness within Metallica's repertoire. 
+
+```{r Figure2, echo=FALSE, message=FALSE, warning =  FALSE, fig.align = 'center', fig.height = 6, fig.width = 7, dev = 'png'}
+
+source("code/plots.R")
+metallica <- metallica  %>% rename(duration=duration_ms)%>% rename(album_name=album) %>% 
+    mutate(band="metallica")
+songs_metallica <- df_transformation(metallica) %>% filter(grepl("Deluxe|72|Magnetic|Garage|Load|Lulu|Monster|Anger", album_name)) %>% 
+    filter(!grepl("Deluxe / Remastered", album_name))
+metallica_albums <- album_plotter(songs_metallica, "Metallica albums by valence,\n energy and instrumentalness")
+metallica_albums
+
+```
+
+
+Figure 3 below compares Metallica and Coldplay along their songs' levels of danceability and tempo. 
+Coldplay's songs are more concentrated around a higher level of tempo while both bands hover around a danceability of 0.5. 
+
+```{r Figure3, echo=FALSE, message=FALSE, warning =  FALSE, fig.align = 'center', fig.height = 6, fig.width = 7, dev = 'png'}
+
+source("code/plots.R")
+coldplay_metallica <- direct_comparison(bands_plot)
+coldplay_metallica  
+
+     
+```
+
+Figure 4 below shows the average energy, valence and instrumentallness within the rock/alternative/indie genre. This is the genre within which both Metallica and Coldplay operate. Metallica is more in line with the genre's high energy level while Coldplay is closer to the genre's level of valence. Both Metallica and Coldplay appear to be above the genre's average instrumentalness. 
+
+```{r Figure4, echo=FALSE, message=FALSE, warning =  FALSE, fig.align = 'center', fig.height = 5, fig.width = 6, dev = 'png'}
+
+source("code/plots.R")
+genre_plot <- genre_comparison(genre_bar)
+genre_plot
+
+     
+```
+
+
+Figures 5 and 6 show the popularity of each of the albums of Coldplay and Metallica. It becomes clear from these figures that a larger proportion of Coldplay's album have higher popularity scores. 
+
+```{r Figure5, echo=FALSE, message=FALSE, warning =  FALSE, fig.align = 'center', fig.height = 5, fig.width = 6, dev = 'png'}
+
+source("code/plots.R")
+metallica_plot <- songs_metallica %>% 
+    filter(!grepl("Garage,|Remastered Deluxe Box Set", album_name)) %>% 
+    dplyr::select(name, album_name, popularity) %>% 
+    group_by(album_name) %>% 
+    summarise(mean = sum(popularity) / n(), se = sd(popularity) / sqrt(n()))
+
+metallica_bests <- popular_album_plotter(metallica_plot, "Average popularity by Metallica album")
+metallica_bests
+
+
+
+
+```
+
+```{r Figure6, echo=FALSE, message=FALSE, warning =  FALSE, fig.align = 'center', fig.height = 5, fig.width = 6, dev = 'png'}
+
+source("code/plots.R")
+coldplay_plot <- songs_coldplay %>% 
+    dplyr::select(name, album_name, popularity) %>% 
+    group_by(album_name) %>% 
+    summarise(mean = sum(popularity, na.rm=TRUE) / n(), 
+              se = sd(popularity, na.rm=TRUE) / sqrt(n()))
+
+
+coldplay_bests <- popular_album_plotter(coldplay_plot, "Average popularity by Coldplay album")
+coldplay_bests
+
+     
+```
+

@@ -1,8 +1,10 @@
-df_transformer <- function(data){
 
 
-    temps <- data %>%
-        select(year_month, DT00, DT32, DX32, DX70, EMXT) %>%
+df_transformer <- function(temps){
+
+
+    temps <- weather %>%
+        select(year_month, weather$DT00, weather$DT32, weather$DX32, weather$DX70, EMXT)%>%
         mutate(year = year(year_month)) %>%
         group_by(year) %>%
         summarise(min_temp_lowest=sum(DT00),
@@ -36,7 +38,7 @@ Temperature_plot <- ggplot(data, aes(y = temp, x = value, fill = temp)) +
     theme(plot.margin = margin(8, 8, 8, 8))+
     theme(legend.position = "bottom",
           legend.justification = "center")+
-    theme(plot.title = element_text(hjust = 0.5, vjust = 2))+
+    theme(plot.title = element_text(face="bold", hjust = 0.5, vjust = 2))+
     theme(legend.title = element_text(size = 10, margin = margin(b = 10)))
 
 return(Temperature_plot)
@@ -77,9 +79,9 @@ table_formatter <- function(london){
                                            ifelse(year>=2010 & year<=2020, "2010s"))))) %>%
         ungroup() %>%
         group_by(Decade) %>%
-        summarise(avg_cloud=mean(cloud_cover, na.rm=TRUE),
-                  avg_sunshine=mean(sunshine, na.rm=TRUE),
-                  avg_precip=mean(precipitation, na.rm=TRUE))
+        summarise(avg_cloud=round(mean(cloud_cover, na.rm=TRUE), 2),
+                  avg_sunshine=round(mean(sunshine, na.rm=TRUE), 2),
+                  avg_precip=round(mean(precipitation, na.rm=TRUE), 2))
 
     library(xtable)
 

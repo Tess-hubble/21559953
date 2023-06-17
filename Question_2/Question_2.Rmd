@@ -1,38 +1,25 @@
 ---
-title: "Helping You Write Academic Papers in R using Texevier"
-documentclass: elsarticle
-Thesis_FP: no
+title: "Weathering the UK"
+author: "Tessa Hubble"
+date: "July 2023"
 output:
   html_document:
+    toc: yes
     df_print: paged
-  pdf_document:
-    keep_tex: yes
-    template: Tex/TexDefault.txt
-    fig_width: 3.5
-    fig_height: 3.5
-Author1: Tessa Hubble
-Ref1: Stellenbosch University, South Africa
-Email1: 21559953\@sun.ac.za
-BottomRFooter: \footnotesize Page \thepage
-addtoprule: yes
-addfootrule: yes
-margin: 2.3
-bottom: 2
-top: 2.5
-HardSet_layout: yes
-linenumbers: no
+  pagedown::html_paged:
+    css:
+    - "Template/default-fonts-Texevier.css"
+    - "Template/default-page-Texevier.css"
+    - "Template/default-Texevier.css"
+    csl: "Template/harvard-stellenbosch-university.csl"
+    template: "Template/paged-Texevier.html"
+    toc: yes
+    self_contained: yes
 bibliography: Tex/ref.bib
-csl: "Tex/harvard-stellenbosch-university.csl"
-RemovePreprintSubmittedTo: yes
-Journal: Journal of Finance
-toc: no
-numbersections: yes
-fontsize: 11pt
-linestretch: 1.2
-link-citations: yes
-AddTitle: yes
-abstract: "Some weather stats to consider before moving to the UK. \n"
+abstract: "This report will provide some statistics on the evolution of COVID-19.
+  This data has been kindly provided by Our World in Data. \n"
 ---
+
 
 
 
@@ -44,9 +31,6 @@ weather <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data sci
 london <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data science\\Exam\\21559953\\Question_2\\data\\london_weather.csv")
 
 
-
- 
-
 ```
 
 
@@ -56,7 +40,7 @@ london <- read_csv("C:\\Users\\tessa\\OneDrive\\Desktop\\Masters 2023\\Data scie
 
 # Introduction \label{Introduction}
 
-Figure 1 shows the number of days within each year since 1881 that fall within different temperature categories. Each year, less than 25 days have a maximum temperature of less than 0 or -17.8 degrees. However, often there are between 20 and 70 days with a maximum temperature of less than 21.1 degrees. More so, there are often years where 30 to 80 days have a minimum temperature of less than 0 degrees. 
+Figure 1 shows the number of days within each year since 1881 that fall within different temperature categories. Each year, less than 25 days have a maximum temperature of less than 0 and -17.8 degrees. However, most years there are between 20 to 70 days with a maximum temperature of less than 21.1 degrees. And most years, 30 to 80 days have a minimum temperature of less than 0 degrees. This means that for more than three quarters of the year, the temperature is below 21.1 degrees. 
 
 
 ```{r Figure1,  warning =  FALSE, fig.align = 'center', fig.cap = "Number of days a year within different temperature categories \\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 6}
@@ -78,20 +62,24 @@ temps
 
 ```
 
-The average extreme temperatures over the last 143 years has remained within the band of 17 and 22 degrees. The highest daily maximum per month was recorded and averaged out over a year to get the figure for each year. This graph is inidcative of the most extreme temperatures throughout a year. As you can see, these extreme warm temperatures can be considered cool days in South Africa. 
+
+The average extreme temperatures over the last 143 years has remained within the band of 17 and 22 degrees. The highest daily maximum per month was recorded and averaged out over a year to get the figure for each year. This graph is inidicative of the most extreme temperatures throughout a year. As you can see, these extreme warm temperatures can be considered only cool days in South Africa. 
+
 
 ```{r Figure2, warning =  FALSE, fig.align = 'center', fig.cap = "Average extreme temperatures per year \\label{Figure2}", fig.height = 5, fig.width = 6, dev = 'png'}
 
 source("code/plots.R")
 
-max_temp <- df_transformer(weather)
+max_temp <- df_transformer(temps)
 avg_temp <- line_plotter(max_temp)
 avg_temp
 
-
 ```
 
-The table below shows that...
+
+The table below shows that average cloud cover has remained between 4.5 and 5.5 everyday over the last three decades. On average there is about 4 and a half hours of sun a day and 1.6mm of rain. The weather described is very consistent as shown by evidence over the last three decades. This proves that the weather is cold, rainy and with lots of cloud cover. 
+
+
 
 ```{r Figure3, warning =  FALSE, fig.align = 'center', fig.cap = "Average weather conditions over the last three decades \\label{Figure3}", fig.height = 5, fig.width = 6, dev = 'png'}
 
@@ -99,7 +87,6 @@ source("code/plots.R")
 
 weather_table <- table_formatter(london)
 weather_table
-
 
 ```
 

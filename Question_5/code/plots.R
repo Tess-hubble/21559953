@@ -27,7 +27,7 @@ ratings_plot <- function(data){
         theme(axis.title.x = element_text(margin = margin(t = 10)))+
         theme(axis.title.x = element_text(hjust = 0.5))+
         theme(plot.margin = margin(15, 10, 15, 10))+
-        theme(plot.title = element_text(size = 14, face="bold"),
+        theme(plot.title = element_text( face="bold", size = 14),
               axis.text.x = element_text(size = 7),
               legend.title = element_text(size = 9))
 
@@ -51,10 +51,10 @@ pie_plot <- installs_df %>%
     ggplot(data = ., aes(x = "", y = cat_count, fill = Category)) +
     geom_bar(stat = "identity", width = 1, color = "white") +
     coord_polar("y", start = 0) +
-    labs(title = "Categories of apps with more than 100 000 000 installs",
-         y = "Number of categories") +
-    theme(plot.title = element_text(size = 14, face = "bold")) +
-    theme_minimal()
+    labs(title = "Categories of apps with more\n than 100 000 000 installs",
+         y = "Number of apps within the categories") +
+    theme_minimal() +
+    theme(plot.title = element_text(size = 14, face = "bold"))
 
 return(pie_plot)
 }
